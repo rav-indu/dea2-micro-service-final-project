@@ -177,6 +177,17 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toResponse(saved);
     }
 
+    @Override
+    public OrderResponse updateWorkerId(UUID id, com.wms.orderservice.dto.request.UpdateWorkerRequest request) {
+        Order order = findOrderOrThrow(id);
+        
+        order.setWorkerId(request.workerId());
+        Order saved = orderRepository.save(order);
+        log.info("Order {} worker ID updated to: {}", order.getOrderNumber(), request.workerId());
+        
+        return orderMapper.toResponse(saved);
+    }
+
     // --- Helper methods ---
 
     private Order findOrderOrThrow(UUID id) {

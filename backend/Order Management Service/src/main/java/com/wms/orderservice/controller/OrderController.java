@@ -230,4 +230,25 @@ public class OrderController {
         OrderResponse response = orderService.updateOrderStatus(id, request);
         return ResponseEntity.ok(response);
     }
+    
+    @PutMapping("/{id}/worker")
+    @Operation(
+            summary = "Update worker ID",
+            description = "Assigns or updates the worker ID for a specific order."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Worker ID updated",
+                    content = @Content(schema = @Schema(implementation = OrderResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request or worker ID is empty",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    public ResponseEntity<OrderResponse> updateWorkerId(
+            @Parameter(description = "UUID of the order", required = true)
+            @PathVariable UUID id,
+            @Valid @RequestBody com.wms.orderservice.dto.request.UpdateWorkerRequest request) {
+        OrderResponse response = orderService.updateWorkerId(id, request);
+        return ResponseEntity.ok(response);
+    }
 }
